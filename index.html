@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bailey Masters | Cybersecurity Engineer</title>
+    <meta name="description" content="Portfolio of Bailey Masters, a Cybersecurity Engineer and CS Student at Clemson University.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://btm12.com/">
+    <meta property="og:title" content="Bailey Masters | Cybersecurity Engineer">
+    <meta property="og:description" content="Portfolio of Bailey Masters, a Cybersecurity Engineer and CS Student at Clemson University. Specializing in threat detection, secure automation, and hardening critical infrastructure.">
+    <meta property="og:image" content="https://btm12.com/preview.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://btm12.com/">
+    <meta property="twitter:title" content="Bailey Masters | Cybersecurity Engineer">
+    <meta property="twitter:description" content="Portfolio of Bailey Masters, a Cybersecurity Engineer and CS Student at Clemson University. Specializing in threat detection, secure automation, and hardening critical infrastructure.">
+    <meta property="twitter:image" content="https://btm12.com/preview.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        cyber: {
+                            dark: '#0a0a0a',
+                            gray: '#1a1a1a',
+                            accent: '#3b82f6', // Blue
+                            accent2: '#10b981', // Emerald
+                            text: '#e5e5e5',
+                            muted: '#a3a3a3'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Libraries -->
+    <script src="https://unpkg.com/three@0.132.2/build/three.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://unpkg.com/gsap@3.11.4/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3.11.4/dist/ScrollTrigger.min.js"></script>
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            overflow-x: hidden;
+        }
+        
+        .glass-nav {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.2);
+        }
+
+        .canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blue-500 selection:text-white">
+
+    <!-- Background -->
+    <div id="canvas-container" class="canvas-container"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="#" class="font-mono text-xl font-bold tracking-tighter hover:text-blue-400 transition-colors">
+                    BAILEY<span class="text-blue-500">/</span>MASTERS
+                </a>
+                
+                <div class="hidden md:flex items-center space-x-8 font-mono text-sm">
+                    <a href="#about" class="text-cyber-muted hover:text-white transition-colors">_ABOUT</a>
+                    <a href="#experience" class="text-cyber-muted hover:text-white transition-colors">_EXPERIENCE</a>
+                    <a href="#projects" class="text-cyber-muted hover:text-white transition-colors">_PROJECTS</a>
+                    <a href="#skills" class="text-cyber-muted hover:text-white transition-colors">_SKILLS</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <a href="https://github.com/baileym12" target="_blank" class="text-cyber-muted hover:text-white transition-colors">
+                        <i data-feather="github" class="w-5 h-5"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/baileym12" target="_blank" class="text-cyber-muted hover:text-white transition-colors">
+                        <i data-feather="linkedin" class="w-5 h-5"></i>
+                    </a>
+                    <a href="resume.pdf" target="_blank" class="px-4 py-2 text-sm font-mono border border-blue-500/50 text-blue-400 rounded hover:bg-blue-500/10 transition-colors">
+                        RESUME.pdf
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center pt-16 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+            <div class="max-w-3xl">
+                <p class="font-mono text-blue-400 mb-4 opacity-0 animate-slide-up" style="animation-delay: 0.1s">Hello, I'm</p>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight opacity-0 animate-slide-up" style="animation-delay: 0.2s">
+                    Bailey Masters.
+                </h1>
+                <h2 class="text-4xl md:text-6xl font-bold text-cyber-muted mb-8 tracking-tight opacity-0 animate-slide-up" style="animation-delay: 0.3s">
+                    I build <span class="gradient-text">secure systems</span>.
+                </h2>
+                <p class="text-xl text-cyber-muted max-w-2xl mb-10 leading-relaxed opacity-0 animate-slide-up" style="animation-delay: 0.4s">
+                    Cybersecurity Engineer & Computer Science Student at Clemson University. 
+                    Specializing in threat detection, secure automation, and hardening critical infrastructure.
+                </p>
+                <div class="flex flex-wrap gap-4 opacity-0 animate-slide-up" style="animation-delay: 0.5s">
+                    <a href="#projects" class="px-8 py-3 bg-blue-600 text-white rounded font-medium hover:bg-blue-700 transition-colors shadow-lg shadow-blue-900/20">
+                        View Projects
+                    </a>
+                    <a href="#contact" class="px-8 py-3 border border-gray-700 text-white rounded font-medium hover:border-gray-500 transition-colors">
+                        Contact Me
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-cyber-muted">
+            <i data-feather="arrow-down" class="w-6 h-6"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-cyber-gray/30">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold mb-6 flex items-center">
+                        <span class="text-blue-500 font-mono mr-4">01.</span> About Me
+                    </h2>
+                    <div class="space-y-4 text-cyber-muted leading-relaxed">
+                        <p>
+                            I am an Honors Computer Science student at <span class="text-blue-400">Clemson University</span> with a 4.0 GPA, specializing in Software Development and Cybersecurity. My passion lies in the intersection of building robust software and securing it against modern threats.
+                        </p>
+                        <p>
+                            Currently, I'm working as a Capstone Software Engineer with <span class="text-blue-400">Michelin</span>, engineering AI-driven migration pipelines. Simultaneously, I conduct research at the <span class="text-blue-400">TigerSec Laboratory</span>, focusing on automotive security and embedded protocols.
+                        </p>
+                        <p>
+                            I thrive in environments where I can apply technical skills to create secure, efficient systems while collaborating with others to solve complex problems.
+                        </p>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative group">
+                    <div class="relative z-10 bg-cyber-gray p-1 rounded-lg border border-gray-800 transform transition-transform group-hover:-translate-y-2 group-hover:-translate-x-2 duration-300">
+                        <!-- Placeholder for a profile image or a terminal graphic -->
+                        <div class="bg-black rounded p-6 font-mono text-sm text-green-400 h-auto shadow-2xl">
+                            <div class="flex gap-2 mb-4">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <p class="mb-2"><span class="text-blue-400">bailey@clemson</span>:<span class="text-blue-300">~</span>$ cat profile.json</p>
+                            <p class="text-gray-300">{</p>
+                            <p class="pl-4 text-gray-300">"name": "Bailey Masters",</p>
+                            <p class="pl-4 text-gray-300">"role": "Cybersecurity Engineer",</p>
+                            <p class="pl-4 text-gray-300">"location": "Greenville, SC",</p>
+                            <p class="pl-4 text-gray-300">"education": "Clemson University",</p>
+                            <p class="pl-4 text-gray-300">"gpa": 4.0,</p>
+                            <p class="pl-4 text-gray-300">"interests": [</p>
+                            <p class="pl-8 text-gray-300">"Network Security",</p>
+                            <p class="pl-8 text-gray-300">"Automation",</p>
+                            <p class="pl-8 text-gray-300">"Embedded Systems"</p>
+                            <p class="pl-4 text-gray-300">]</p>
+                            <p class="text-gray-300">}</p>
+                            <p class="mt-2 animate-pulse">_</p>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 border-2 border-blue-500/30 rounded-lg transform translate-x-4 translate-y-4 -z-10 transition-transform group-hover:translate-x-2 group-hover:translate-y-2 duration-300"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-24">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-12 flex items-center">
+                <span class="text-blue-500 font-mono mr-4">02.</span> Experience
+            </h2>
+
+            <div class="space-y-12 border-l-2 border-gray-800 ml-3 pl-8 relative">
+                
+                <!-- Item 1 -->
+                <div class="relative group">
+                    <div class="absolute -left-[41px] top-0 w-5 h-5 rounded-full border-4 border-black bg-blue-500 group-hover:scale-125 transition-transform"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <h3 class="text-xl font-bold text-white">Capstone Software Engineer</h3>
+                        <span class="font-mono text-sm text-blue-400">Aug 2025 — Present</span>
+                    </div>
+                    <h4 class="text-lg text-gray-400 mb-4">Michelin · Greenville, SC</h4>
+                    <ul class="list-disc list-outside ml-4 space-y-2 text-gray-400 text-sm leading-relaxed">
+                        <li>Engineered custom code migration pipeline to convert COBOL to Java using multiple LLM-powered backend agents, benchmarking AWS Transform for cost, accuracy, and automation improvements.</li>
+                        <li>Collaborated with Michelin engineers to align migration tooling with real-world automotive software needs, presenting findings at weekly reviews.</li>
+                        <li>Implemented React frontend pages and connected them to the FastAPI backend through RESTful endpoints enabling real-time communication between the user interface and AI agents.</li>
+                    </ul>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative group">
+                    <div class="absolute -left-[41px] top-0 w-5 h-5 rounded-full border-4 border-black bg-gray-600 group-hover:bg-blue-500 transition-colors"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <h3 class="text-xl font-bold text-white">Automotive Security Researcher</h3>
+                        <span class="font-mono text-sm text-blue-400">Aug 2025 — Present</span>
+                    </div>
+                    <h4 class="text-lg text-gray-400 mb-4">TigerSec Laboratory · Clemson, SC</h4>
+                    <ul class="list-disc list-outside ml-4 space-y-2 text-gray-400 text-sm leading-relaxed">
+                        <li>Modified, reviewed, and validated embedded C code implementing automotive communication protocols to ensure reliable ECU functionality and system performance.</li>
+                        <li>Developed a custom C implementation of the SOME/IP network protocol for the Zonal Architecture Testbed (ZAT), adapted from the Python someipy library for embedded use.</li>
+                        <li>Assisted in developing a React-based front-end dashboard that enables real-time interaction and visualization of ZAT network traffic and test results via RESTful APIs.</li>
+                    </ul>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative group">
+                    <div class="absolute -left-[41px] top-0 w-5 h-5 rounded-full border-4 border-black bg-gray-600 group-hover:bg-blue-500 transition-colors"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <h3 class="text-xl font-bold text-white">Cybersecurity Intern</h3>
+                        <span class="font-mono text-sm text-blue-400">June 2025 — Aug 2025</span>
+                    </div>
+                    <h4 class="text-lg text-gray-400 mb-4">Pharmaceutical Associates Inc. · Greenville, SC</h4>
+                    <ul class="list-disc list-outside ml-4 space-y-2 text-gray-400 text-sm leading-relaxed">
+                        <li>Enhanced cybersecurity posture by monitoring SIEM alerts, documenting incident response procedures, and maintaining an accurate IT asset inventory.</li>
+                        <li>Developed comprehensive cybersecurity policies leveraging NIST frameworks (CSF, SP 800-53) to align organizational security practices with industry standards.</li>
+                        <li>Performed infrastructure maintenance, including patch management, vulnerability remediation, and automated data backups.</li>
+                    </ul>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="relative group">
+                    <div class="absolute -left-[41px] top-0 w-5 h-5 rounded-full border-4 border-black bg-gray-600 group-hover:bg-blue-500 transition-colors"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <h3 class="text-xl font-bold text-white">Software Development TA</h3>
+                        <span class="font-mono text-sm text-blue-400">Jan 2025 — Aug 2025</span>
+                    </div>
+                    <h4 class="text-lg text-gray-400 mb-4">Clemson University · Clemson, SC</h4>
+                    <ul class="list-disc list-outside ml-4 space-y-2 text-gray-400 text-sm leading-relaxed">
+                        <li>Facilitated weekly office hours and provided one-on-one support to 100+ students in Java programming, debugging, and IDE usage.</li>
+                        <li>Evaluated 30+ team-based Java projects assessing industry best practices, SOLID principles, JUnit test coverage, and Git collaboration workflows.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 bg-cyber-gray/30">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-12 flex items-center">
+                <span class="text-blue-500 font-mono mr-4">03.</span> Featured Projects
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Project 1 -->
+                <div class="bg-cyber-dark rounded-lg p-8 card-hover flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="text-blue-500">
+                            <i data-feather="shield" class="w-10 h-10"></i>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="https://github.com/baileym12/threat-detection-lab" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                                <i data-feather="github" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">Threat Detection Lab</h3>
+                    <p class="text-gray-400 text-sm mb-6 flex-grow">
+                        A comprehensive SOC environment combining Wazuh SIEM, Suricata IDS, and Sysmon telemetry. Designed to prototype detection engineering workflows and analyze attack patterns in a controlled setting.
+                    </p>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs text-blue-400">
+                        <span>Wazuh</span>
+                        <span>Suricata</span>
+                        <span>Sysmon</span>
+                        <span>Kali Linux</span>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="bg-cyber-dark rounded-lg p-8 card-hover flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="text-blue-500">
+                            <i data-feather="server" class="w-10 h-10"></i>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="https://github.com/baileym12/corporate-attack-lab" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                                <i data-feather="github" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">Corporate Attack Lab</h3>
+                    <p class="text-gray-400 text-sm mb-6 flex-grow">
+                        Enterprise-scale capture the flag simulating multi-stage intrusions. Features scenarios for credential exposure, binary exploits, privilege escalation, and backup encryption weaknesses.
+                    </p>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs text-blue-400">
+                        <span>Penetration Testing</span>
+                        <span>Active Directory</span>
+                        <span>Binary Analysis</span>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="bg-cyber-dark rounded-lg p-8 card-hover flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="text-blue-500">
+                            <i data-feather="lock" class="w-10 h-10"></i>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="https://github.com/baileym12/python-credential-manager" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                                <i data-feather="github" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">Python Credential Manager</h3>
+                    <p class="text-gray-400 text-sm mb-6 flex-grow">
+                        CLI vault for API keys with AES-backed encryption. Implements secret rotation policies, compliance-oriented audit logging, and secure environment segmentation.
+                    </p>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs text-blue-400">
+                        <span>Python</span>
+                        <span>Cryptography</span>
+                        <span>CLI</span>
+                        <span>Security Compliance</span>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="bg-cyber-dark rounded-lg p-8 card-hover flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="text-blue-500">
+                            <i data-feather="code" class="w-10 h-10"></i>
+                        </div>
+                        <div class="flex space-x-4">
+                            <!-- Link to LinkedIn or Resume since it's a work project -->
+                            <a href="https://www.linkedin.com/in/baileym12/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                                <i data-feather="external-link" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">COBOL-to-Java Migration</h3>
+                    <p class="text-gray-400 text-sm mb-6 flex-grow">
+                        LLM-assisted modernization tooling engineered with Michelin. Translates legacy automotive codebases and benchmarks AWS Transforms for accuracy and cost efficiency.
+                    </p>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs text-blue-400">
+                        <span>FastAPI</span>
+                        <span>React</span>
+                        <span>LLMs</span>
+                        <span>AWS</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-12 flex items-center">
+                <span class="text-blue-500 font-mono mr-4">04.</span> Technical Skills
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Category 1 -->
+                <div>
+                    <h3 class="text-lg font-bold mb-6 text-white border-b border-gray-800 pb-2">Languages</h3>
+                    <ul class="space-y-2 font-mono text-sm text-gray-400">
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> Python</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> C / C++</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> Java</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> Bash / PowerShell</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> SQL</li>
+                    </ul>
+                </div>
+
+                <!-- Category 2 -->
+                <div>
+                    <h3 class="text-lg font-bold mb-6 text-white border-b border-gray-800 pb-2">Security Stack</h3>
+                    <ul class="space-y-2 font-mono text-sm text-gray-400">
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> Splunk / Elastic Stack</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> Wireshark / Nmap</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> Burp Suite</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> Nessus / Metasploit</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> Snort / Scapy</li>
+                    </ul>
+                </div>
+
+                <!-- Category 3 -->
+                <div>
+                    <h3 class="text-lg font-bold mb-6 text-white border-b border-gray-800 pb-2">Development</h3>
+                    <ul class="space-y-2 font-mono text-sm text-gray-400">
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> FastAPI / Flask</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> React / Tailwind</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> Node.js</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> Docker</li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">▹</span> AWS</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 text-center">
+        <div class="max-w-2xl mx-auto px-6">
+            <p class="text-blue-500 font-mono mb-4">05. What's Next?</p>
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white">Get In Touch</h2>
+            <p class="text-gray-400 text-lg mb-10">
+                I'm currently looking for new opportunities in cybersecurity and software engineering. Whether you have a question or just want to say hi, I'll try my best to get back to you!
+            </p>
+            <a href="mailto:bailey.masters13@gmail.com" class="inline-block px-8 py-4 border border-blue-500 text-blue-500 rounded hover:bg-blue-500/10 transition-colors font-mono">
+                Say Hello
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-sm text-gray-600 font-mono">
+        <div class="flex justify-center space-x-6 mb-4">
+            <a href="https://github.com/baileym12" class="hover:text-blue-500 transition-colors"><i data-feather="github" class="w-4 h-4"></i></a>
+            <a href="https://linkedin.com/in/baileym12" class="hover:text-blue-500 transition-colors"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+        </div>
+        <p>Designed & Built by Bailey Masters</p>
+    </footer>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate Sections on Scroll
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+            gsap.fromTo(section.children, 
+                { y: 50, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    stagger: 0.2,
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 80%",
+                    }
+                }
+            );
+        });
+
+        // Three.js Background - Network Nodes
+        const initThreeJS = () => {
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            // Particles
+            const geometry = new THREE.BufferGeometry();
+            const count = 100;
+            const positions = new Float32Array(count * 3);
+            
+            for(let i = 0; i < count * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 20;
+            }
+            
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            
+            const material = new THREE.PointsMaterial({
+                size: 0.05,
+                color: 0x3b82f6,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            const particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            // Lines
+            const lineMaterial = new THREE.LineBasicMaterial({
+                color: 0x3b82f6,
+                transparent: true,
+                opacity: 0.15
+            });
+
+            camera.position.z = 5;
+
+            // Mouse interaction
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX / window.innerWidth - 0.5;
+                mouseY = event.clientY / window.innerHeight - 0.5;
+            });
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                particles.rotation.x += 0.0005;
+                particles.rotation.y += 0.0005;
+
+                // Gentle camera movement based on mouse
+                camera.position.x += (mouseX * 2 - camera.position.x) * 0.05;
+                camera.position.y += (-mouseY * 2 - camera.position.y) * 0.05;
+                camera.lookAt(scene.position);
+
+                // Dynamic lines connecting close particles
+                // Note: Recreating geometry every frame is heavy, but fine for low particle count
+                const particlePositions = particles.geometry.attributes.position.array;
+                const linePositions = [];
+                
+                // Simple distance check (optimization: only check subset or use spatial partition in real app)
+                for(let i = 0; i < count; i++) {
+                    for(let j = i + 1; j < count; j++) {
+                        const x1 = particlePositions[i*3];
+                        const y1 = particlePositions[i*3+1];
+                        const z1 = particlePositions[i*3+2];
+                        
+                        const x2 = particlePositions[j*3];
+                        const y2 = particlePositions[j*3+1];
+                        const z2 = particlePositions[j*3+2];
+
+                        const dist = Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2) + Math.pow(z1-z2, 2));
+
+                        if(dist < 3) {
+                            linePositions.push(x1, y1, z1);
+                            linePositions.push(x2, y2, z2);
+                        }
+                    }
+                }
+
+                const lineGeometry = new THREE.BufferGeometry();
+                lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+                
+                const oldLines = scene.getObjectByName('lines');
+                if(oldLines) scene.remove(oldLines);
+
+                const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+                lines.name = 'lines';
+                lines.rotation.x = particles.rotation.x;
+                lines.rotation.y = particles.rotation.y;
+                scene.add(lines);
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        initThreeJS();
+    </script>
+</body>
+</html>
